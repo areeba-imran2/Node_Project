@@ -1,17 +1,22 @@
-import fs from 'fs';  // Correct import for fs module
 import { createServer } from 'http';
 
 const myServer = createServer((req, res) => {
-  const log = `${Date.now()}: ${req.url} New Req Received\n`;
+  if (req.method === 'GET' && req.url === '/data') {
+    // Set the response header to indicate JSON content
+    res.setHeader('Content-Type', 'application/json');
 
-  fs.appendFile('log.txt', log, (err) => {
-    if (err) {
-      console.error('Error writing to file:', err);
-      res.end('Error occurred');
-      return;
-    }
-    res.end('Hello From Server Again');
-  });
+    // Create a sample JSON object to return
+    const data = {
+      message: 'Hello from the server!',
+      timestamp: Date.now(),
+    };
+
+    // Send the JSON response
+    res.end(JSON.stringify(data));
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
 });
 
-myServer.listen(8000, () => console.log('Server Started!'));
+myServer.listen(8000, () => console.log('Server Started on port 8000'));

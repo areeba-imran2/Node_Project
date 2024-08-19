@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch JSON Data</title>
+</head>
+<body>
+    <h1>JSON Data from Node.js Server</h1>
+    <div id="jsonData"></div>
+
+    <script>
+        // Fetch JSON data from the server
+        fetch('http://localhost:8000/data')
+            .then(response => response.json())
+            .then(data => {
+                // Display the JSON data in the HTML
+                document.getElementById('jsonData').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error fetching JSON data:', error));
+    </script>
+</body>
+</html>
